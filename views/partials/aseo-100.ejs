@@ -590,6 +590,7 @@
       var currentMinutes = currentDate.getMinutes();
       var horarioDisponible = false;
     
+      var minTimeDifference = 120;
       for (var i = 0; i < horarios.length; i++) {
         var horario = horarios[i];
         
@@ -599,8 +600,10 @@
     
         var horarioTotalMinutes = horarioHour * 60 + horarioMinutes;
         var currentTotalMinutes = currentHour * 60 + currentMinutes;
+
+        var timeDifference = horarioTotalMinutes - currentTotalMinutes; 
     
-        if (currentTotalMinutes <= horarioTotalMinutes) {
+        if (currentTotalMinutes <= horarioTotalMinutes  && timeDifference >= minTimeDifference) {
           horariosHTML += "<li><input type='radio' name='horario' value='" + horario.label + "'>" + horario.label + "</li>";
           horarioDisponible = true; // Se encontró un horario disponible
         }
@@ -756,6 +759,7 @@
       var currentMinutes = currentDate.getMinutes();
       var horarioDisponible = false;
     
+      var minTimeDifference = 120;
       for (var i = 0; i < horarios.length; i++) {
         var horario = horarios[i];
         
@@ -765,8 +769,10 @@
     
         var horarioTotalMinutes = horarioHour * 60 + horarioMinutes;
         var currentTotalMinutes = currentHour * 60 + currentMinutes;
+
+        var timeDifference = horarioTotalMinutes - currentTotalMinutes; 
     
-        if (currentTotalMinutes <= horarioTotalMinutes) {
+        if (currentTotalMinutes <= horarioTotalMinutes  && timeDifference >= minTimeDifference) {
           horariosHTML += "<li><input type='radio' name='horario' value='" + horario.label + "'>" + horario.label + "</li>";
           horarioDisponible = true; // Se encontró un horario disponible
         }
@@ -932,6 +938,7 @@
       var currentMinutes = currentDate.getMinutes();
       var horarioDisponible = false;
     
+      var minTimeDifference = 120;
       for (var i = 0; i < horarios.length; i++) {
         var horario = horarios[i];
         
@@ -941,8 +948,10 @@
     
         var horarioTotalMinutes = horarioHour * 60 + horarioMinutes;
         var currentTotalMinutes = currentHour * 60 + currentMinutes;
+
+        var timeDifference = horarioTotalMinutes - currentTotalMinutes; 
     
-        if (currentTotalMinutes <= horarioTotalMinutes) {
+        if (currentTotalMinutes <= horarioTotalMinutes  && timeDifference >= minTimeDifference) {
           horariosHTML += "<li><input type='radio' name='horario' value='" + horario.label + "'>" + horario.label + "</li>";
           horarioDisponible = true; // Se encontró un horario disponible
         }
