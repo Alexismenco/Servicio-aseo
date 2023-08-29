@@ -79,7 +79,7 @@ app.post('/pagar', async (req, res) => {
     req.session.agendar.orden = buyOrder;
     req.session.agendar.session = sessionId;
   
-    const tx = new WebpayPlus.Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, Environment.Integration));
+    const tx = new WebpayPlus.Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, Environment.Production));
     const response = await tx.create(buyOrder, sessionId, parseInt(req.body.precio), process.env.DIRECCIONRETORNO);
     
     const token = response.token;
@@ -99,7 +99,7 @@ app.get('/pago', async (req, res) => {
   let compra=false;
 
   if (token && !tbkToken) {//Flujo 1
-    const tx = new WebpayPlus.Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, Environment.Integration));
+    const tx = new WebpayPlus.Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, Environment.Production));
     const commitResponse = await tx.commit(token);
     if(commitResponse.status=='AUTHORIZED'){
       step = "Transacción exitosa.";
@@ -252,7 +252,7 @@ app.post('/plan', async (req, res) => {
     req.session.agendar.orden = buyOrder;
     req.session.agendar.session = sessionId;
 
-    const tx = new WebpayPlus.Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, Environment.Integration));
+    const tx = new WebpayPlus.Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, Environment.Production));
     const response = await tx.create(buyOrder, sessionId, parseInt(req.body.precio), process.env.DIRECCIONRETORNOPLAN);
     
     const token = response.token;
@@ -272,7 +272,7 @@ app.get('/plan/pago', async (req, res) => {
   let compra=false;
 
   if (token && !tbkToken) {//Flujo 1
-    const tx = new WebpayPlus.Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, Environment.Integration));
+    const tx = new WebpayPlus.Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, Environment.Production));
     const commitResponse = await tx.commit(token);
     if(commitResponse.status=='AUTHORIZED'){
       step = "Transacción exitosa.";

@@ -202,6 +202,59 @@
             </div>
             </div>
         </div>
+
+
+        <hr style="width: 100%; margin: 15px 0; border-color: #464545;"> 
+
+        <div class="card mb-3" style="max-width: 540px; border: none;">
+            <div class="row g-0">
+            <div class="col-md-4 d-flex  align-items-center justify-content-center">
+                <img src="/img/plan3.png" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8 text-dark">
+                <div class="card-body">
+                <h5 class="card-title">Test</h5>
+                <p>Plan mensual</p>
+                <h3 style="color: #00C2CB;">50</h3>
+                <ul class="text-dark">
+                  <li>Ahorra contratando un Plan Mensual</li>
+                  <li>Recomendado para no mas de 100 metros cuadrados</li>
+                  <li>4 Aseos divididos semanalmente</li>
+                  <li>1 Aseo Premium + 3 Aseos Light</li>
+                  <li>Pago mensual</li>
+                </ul>
+                  <button class="btn p-2 comprar-btn" style="background-color: #00C2CB;">Comprar</button>
+                  <form  class="comprar-form mt-4" style="display: none;" id="appointment-form" action="/plan" method="post">
+                    <input type="hidden" name="plan" value="100×4">
+      
+      
+                    <label for="delivery-zone">Nombre <span>*</span></label>
+                    <input type="text" id="delivery-zone" name="nombre" required>
+        
+                    <label for="delivery-zone">Apellidos <span>*</span></label>
+                    <input type="text" id="delivery-zone" name="apellidos" required>
+        
+                    <label for="email">Dirección de correo electrónico <span>*</span></label>
+                    <input type="email" id="email" name="email" required>
+        
+                    <label for="phone">Teléfono <span>*</span></label>
+                    <input placeholder="9 87654321" type="number" id="phone" name="phone" required>
+        
+                    <label for="street">Dirección Completa (Incluya calle, numero, depto/oficina, comuna) <span>*</span></label>
+                    <input type="text" id="street" name="street" required>
+                  
+                    <label for="order-notes">Notas del pedido (opcional)</label>
+                    <textarea id="order-notes" name="order" rows="4"></textarea>
+                  <input type="number" name="precio" value="50" style="display: none;" required>
+        
+                    <button type="submit">Agendar Servicio</button>
+                </form>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+
     </div>
 </div>
 
