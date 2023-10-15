@@ -42,32 +42,29 @@ app.get('/planes', async (req, res) => {
 // Agendar Formulario
 app.post('/agendar', async (req, res) => {
   // Servicio y horario escogido por el usuario
-  var tamano = req.body.tamano;
-  var area = req.body.tipo;
+  var servicio = req.body.tipo;
+  var fecha = req.body.fecha;
+  var horario = req.body.horario;
+
+  var tiempo;
   var servicioImg;
   var servicioPrecio;
-
   for (let i = 0; i < servicios.aseo.length; i++) {
-    // Valido si es igual el tamaño y el area
-    if (req.body.tamano == servicios.aseo[i].area) {
-      const tipo = req.body.tipo.toLowerCase();
-      const servicio = servicios.aseo[i].servicios[tipo];
-  
-      if (servicio) {
-        servicioImg = servicio.img;
-        servicioPrecio = servicio.precio;
-      } else {
-        console.log('No se encontró el tipo de servicio correspondiente.');
-      }
-      break; // Termina el ciclo una vez encontrado el área coincidente
+    // Valido si es igual el nombre
+    if(servicios.aseo[i].nombre==servicio){
+      tiempo = servicios.aseo[i].tiempo;
+      servicioImg = servicios.aseo[i].img;
+      servicioPrecio = servicios.aseo[i].precio;
     }
   }
 
-  res.render('agendar',{ servicioImg, servicioPrecio, tamano, area });
+  res.render('agendar',{ servicio, servicioImg, servicioPrecio, tiempo, fecha, horario});
 });
 
-// Pagar por webpay o td
+// Pagar por webpay o td servicio unico
 app.post('/pagar', async (req, res) => {
+  console.log(req.body, 'PAGAR')
+
   req.session.agendar = req.body;
 
     // Configuracion webpay
@@ -91,6 +88,7 @@ app.post('/pagar', async (req, res) => {
 // Vuelta del pago de webpay o td
 app.get('/pago', async (req, res) => {
   var data = req.session.agendar;
+  console.log(data)
 
   let params = req.method === 'GET' ? req.query : req.body;
   let token = req.query.token_ws;
@@ -112,8 +110,35 @@ app.get('/pago', async (req, res) => {
                 <p>Se ha realizado una nueva compra en el sitio.</p>
                 <p>Detalles de la compra:</p>
                 <ul>
-                    <li>Servicio: Limpieza ${data.tipo} para ${data.tamano} metros cuadrados</li>
+                    <li>Servicio: Limpieza ${data.tipo}.</li>
                     <li>Monto: $${data.precio}</li>
+                    <li>Fecha: ${data.fecha}</li>
+                    <li>Horario: ${data.horario}</li>
+                </ul>
+                <p>Detalles del usuario:</p>
+                <ul>
+                    <li>Nombre completo: ${data.nombre} ${data.apellidos}</li>
+                    <li>Dirección: ${data.street}</li>
+                    <li>N° Celular: ${data.phone}</li>
+                    <li>N° Orden: ${data.orden}</li>
+                    <li>N° Sesión: ${data.session}</li>
+                    <li>Notas: ${data.order}</li>
+                </ul>
+            </body>
+            </html>
+        `;
+
+        // Encargado de realizar el servicio
+        var email2 = `
+            <html>
+            <body style="font-family: Arial, sans-serif;">
+                <h2>Nuevo Servicio Adquirido</h2>
+                <p>Se ha realizado una nueva compra en el sitio.</p>
+                <p>Detalles de la compra:</p>
+                <ul>
+                    <li>Servicio: Limpieza ${data.tipo}.</li>
+                    <li>Fecha: ${data.fecha}</li>
+                    <li>Horario: ${data.horario}</li>
                 </ul>
                 <p>Detalles del usuario:</p>
                 <ul>
@@ -145,7 +170,7 @@ app.get('/pago', async (req, res) => {
       });
       }
 
-      // Email Encargado
+      // Email CEO
       const mail2 = {
         from: process.env.MAILUSER, // De la empresa
         to: `${process.env.MAILENCARGADO}`, // Correo
@@ -153,6 +178,22 @@ app.get('/pago', async (req, res) => {
         html: email,
       };
       transporter.sendMail(mail2, (err, info) => {
+        if (err) {
+          console.log("Error en el correo: " + err.message);
+          res.status(500).send("Error al enviar correo");
+        } else {
+          console.log("Correo enviado: " + info.response);
+        }
+      });
+
+       // Email Trabajador
+       const mail3 = {
+        from: process.env.MAILUSER, // De la empresa
+        to: `${process.env.MAILENCARGADO2}`, // Correo
+        subject: '¡Compra Exitosa!',
+        html: email2,
+      };
+      transporter.sendMail(mail3, (err, info) => {
         if (err) {
           console.log("Error en el correo: " + err.message);
           res.status(500).send("Error al enviar correo");
@@ -175,6 +216,7 @@ app.get('/pago', async (req, res) => {
 
 app.post('/td', async (req, res) => {
   var data = req.session.agendar;
+  console.log(data)
 
   const email = `
             <html>
@@ -184,8 +226,11 @@ app.post('/td', async (req, res) => {
                 <p>Recuerda que no se procesará hasta que se haya recibido el importe en nuestra cuenta.</p>
                 <p>Detalles de la compra:</p>
                 <ul>
-                    <li>Servicio: Limpieza ${data.tipo} para ${data.tamano} metros cuadrados</li>
+                    <li>Servicio: Limpieza ${data.tipo}.</li>
                     <li>Monto: $${data.precio}</li>
+                    <li>Fecha: ${data.fecha}</li>
+                    <li>Horario: ${data.horario}</li>
+                    .
                 </ul>
                 <p>Detalles del usuario:</p>
                 <ul>

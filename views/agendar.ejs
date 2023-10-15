@@ -17,7 +17,7 @@
               <div class="col-md-8">
                 <div class="card-body">
                   <h5 class="card-title">Detalle del servicio</h5>
-                  <p class="card-text">El servicio corresponde al servicio <%= area %> para tamaños de hasta <%= tamano %> metros cuadrados</p>
+                  <p class="card-text">El servicio corresponde al servicio <%= servicio %> de <%= tiempo %></p>
                   <p class="card-text"><small class="text-body-secondary">Precio $<%= servicioPrecio %></small></p>
                   <div class="mb-5" style="display: flex; justify-content: center; align-items: center; height: max-content;">
                     <img src="./img/sello.png" style="width: 150px; border: 3px solid gold; border-radius: 50%;" alt="Imagen centrada">
@@ -49,8 +49,10 @@
             <textarea id="order-notes" name="order" rows="4"></textarea>
 
             <input type="number" value="<%= servicioPrecio %>" name="precio" style="display: none;">
-            <input type="text" value="<%= area %>" name="tipo" style="display: none;">
-            <input type="number" value="<%= tamano %>" name="tamano" style="display: none;">
+            <input type="text" value="<%= tiempo %>" name="tipo" style="display: none;">
+            <input type="number" value="<%= servicio %>" name="tamano" style="display: none;">
+            <input type="text" value="<%= fecha %>" name="fecha" style="display: none;">
+            <input type="text" value="<%= horario %>" name="horario" style="display: none;">
 
             <button type="submit">Agendar Servicio</button>
         </form>
